@@ -1,22 +1,23 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-// String basicPolicyName = 'BasicPolicy';
-// String proPolicyName = 'ProPolicy';
-// String productName = 'Product1';
-String firstNameJohn = 'John';
-String firstNameBob = 'Bob';
-// String userLastNameJohnDoe = 'Doe';
-String emailJohnDoe = 'john@doe.com';
-String passwordJohnDoe = 'secret5';
-String newPasswordJohnDoe = 'secret6';
+const String firstNameJohn = 'John';
+const String firstNameBob = 'Bob';
+const String emailJohnDoe = 'john@doe.com';
+const String passwordJohnDoe = 'secret5';
+const String newPasswordJohnDoe = 'secret6';
 
 Duration wait = Duration(seconds: 1);
 
 
+// Users represent an identity for an end-user, or licensee, of your software.
+//
+// See the README for more information about users and how to use them.
+//
+// https://keygen.sh/docs/api/users/
 void main() {
 
   group('Keygen User Test', () {
@@ -92,6 +93,10 @@ void main() {
 
     });
 
+    // Updates the specified user resource by setting the values of the
+    // parameters passed.
+    //
+    // https://keygen.sh/docs/api/users/#users-update
     test('update user', () async {
 
       //
@@ -126,6 +131,9 @@ void main() {
 
     });
 
+    // Returns a list of users.
+    //
+    // https://keygen.sh/docs/api/users/#users-list
     test('list users', () async {
 
       List<User> users = await usersApi.listUsers(
@@ -137,6 +145,9 @@ void main() {
 
     });
 
+    // Updates the user's password.
+    //
+    // https://keygen.sh/docs/api/users/#users-actions-update-password
     test('update password as admin', () async {
 
       try {
@@ -157,6 +168,9 @@ void main() {
 
     });
 
+    // Updates the user's password.
+    //
+    // https://keygen.sh/docs/api/users/#users-actions-update-password
     test('update password as user', () async {
 
       Token userToken = await usersApi.createUserToken(
@@ -192,7 +206,6 @@ void main() {
 
     });
 
-    //
     // may not write a test for forgotPassword because this requires an email
     // account to receive email
     //
@@ -202,6 +215,9 @@ void main() {
     //
     // });
 
+    // Bans a user.
+    //
+    // https://keygen.sh/docs/api/users/#users-actions-ban
     test('ban user', () async {
 
       User user2 = await usersApi.retrieveUser(
@@ -244,7 +260,10 @@ void main() {
       expect(user2.attributes.status, UserAttributesStatusEnum.ACTIVE);
 
     });
-    
+
+    // Generates a new user token resource.
+    //
+    // https://keygen.sh/docs/api/users/#users-tokens
     test('create user token', () async {
 
       Token userToken = await usersApi.createUserToken(

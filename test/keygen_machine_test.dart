@@ -1,24 +1,25 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:machineid/machineid.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_digital_fingerprint/runtime_digital_fingerprint.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-String basicPolicyName = 'Basic Policy';
-// String proPolicyName = 'Pro Policy';
-String productName = 'Product 1';
-// String userFirstNameJohnDoe = 'John';
-// String userLastNameJohnDoe = 'Doe';
-String emailJohnDoe = 'john@doe.com';
-// String userPasswordJohnDoe = 'secret5';
-// String userNewPasswordJohnDoe = 'secret6';
-String machineName = 'Machine Name';
-String newMachineName = 'Machine Name 2';
+const String basicPolicyName = 'Basic Policy';
+const String productName = 'Product 1';
+const String emailJohnDoe = 'john@doe.com';
+const String machineName = 'Machine Name';
+const String newMachineName = 'Machine Name 2';
 
 Duration wait = Duration(seconds: 1);
 
 
+// Machines can be used to track and manage where your users are allowed to
+// use your product.
+//
+// See the README for more information about machines and how to use them.
+//
+// https://keygen.sh/docs/api/machines/
 void main() {
 
   group('Keygen Machine Test', () {
@@ -157,7 +158,7 @@ void main() {
 
     setUp(() async {
 
-      String fingerprint = await MachineID.machineid;
+      String fingerprint = await MachineId.machineId();
 
       machine = await machinesApi.activateMachine(
         token: adminToken,
@@ -183,6 +184,10 @@ void main() {
 
     });
 
+    // Updates the specified machine resource by setting the values of the
+    // parameters passed.
+    //
+    // https://keygen.sh/docs/api/machines/#machines-update
     test('update machine', () async {
 
       //
@@ -217,6 +222,9 @@ void main() {
 
     });
 
+    // Returns a list of machines.
+    //
+    // https://keygen.sh/docs/api/machines/#machines-list
     test('list machines', () async {
 
       List<Machine> machines = await machinesApi.listMachines(
@@ -228,6 +236,9 @@ void main() {
 
     });
 
+    // Begins or maintains a machine heartbeat monitor.
+    //
+    // https://keygen.sh/docs/api/machines/#machines-actions-ping
     test('ping heartbeat', () async {
 
       Machine machine2 = await machinesApi.retrieveMachine(
@@ -271,9 +282,7 @@ void main() {
 
     });
 
-    //
     // changeOwner is currently missing from keygen-openapi.yml
-    //
     test('change owner', () async {
 
       User newOwner = await miscApi.whoAmI(

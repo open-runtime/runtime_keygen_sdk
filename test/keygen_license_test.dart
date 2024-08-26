@@ -1,22 +1,27 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-String basicPolicyName = 'Basic Policy';
-String proPolicyName = 'Pro Policy';
-String productName = 'Product 1';
-String emailJohnDoe = 'john@doe.com';
-String licenseName = 'License Name';
-String newLicenseName = 'License Name 2';
-String entitlementName = 'Example Entitlement';
-String entitlementCode = 'EXAMPLE_ENTITLEMENT';
-int durationDaySeconds = 86400;
+const String basicPolicyName = 'Basic Policy';
+const String proPolicyName = 'Pro Policy';
+const String productName = 'Product 1';
+const String emailJohnDoe = 'john@doe.com';
+const String licenseName = 'License Name';
+const String newLicenseName = 'License Name 2';
+const String entitlementName = 'Example Entitlement';
+const String entitlementCode = 'EXAMPLE_ENTITLEMENT';
+const int durationDaySeconds = 86400;
 
 Duration wait = Duration(seconds: 1);
 
 
+// Licenses are used to grant access to your software.
+//
+// See the README for more information about licenses and how to use them.
+//
+// https://keygen.sh/docs/api/licenses/
 void main() {
 
   group('Keygen License Test', () {
@@ -170,6 +175,10 @@ void main() {
 
     });
 
+    // Updates the specified license resource by setting the values of the
+    // parameters passed.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-update
     test('update license', () async {
 
       //
@@ -204,6 +213,9 @@ void main() {
 
     });
 
+    // Returns a list of licenses.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-list
     test('list licenses', () async {
 
       List<License> licenses = await licensesApi.listLicenses(
@@ -215,6 +227,9 @@ void main() {
 
     });
 
+    // Validates a license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-actions-validate
     test('validate license by id', () async {
 
       ValidateLicenseResponse resp = await licensesApi.validateLicenseById(
@@ -226,6 +241,9 @@ void main() {
 
     });
 
+    // Validates a license key.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-actions-validate-key
     test('validate license by key', () async {
 
       ValidateLicenseKeyResponse resp = await licensesApi.validateLicenseByKey(
@@ -236,6 +254,9 @@ void main() {
 
     });
 
+    // Temporarily suspends (bans) a license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-actions-suspend
     test('suspend license', () async {
 
       ValidateLicenseResponse resp = await licensesApi.validateLicenseById(
@@ -279,6 +300,9 @@ void main() {
 
     });
 
+    // Renews a license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-actions-renew
     test('renew license', () async {
 
       //
@@ -320,6 +344,7 @@ void main() {
 
     });
 
+    // Prefer to use deleteLicense instead of revokeLicense
     test('revoke license', () async {
 
       try {
@@ -341,6 +366,9 @@ void main() {
 
     });
 
+    // Checks-in a license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-actions-check-in
     test('checkin license', () async {
 
       //
@@ -363,6 +391,9 @@ void main() {
       }
     });
 
+    // Creates a license token for a license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-relationships-activation-tokens
     test('create license token', () async {
 
       Token licenseToken = await licensesApi.createLicenseToken(
@@ -389,7 +420,6 @@ void main() {
     // attachUsers is currently missing form keygen-openapi.yml
     // detachUsers is currently missing form keygen-openapi.yml
     // listUsers is currently missing form keygen-openapi.yml
-    //
     test('list users', () async {
 
       try {
@@ -441,6 +471,9 @@ void main() {
 
     });
 
+    // Returns a list of entitlements attached to the license.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-relationships-list-entitlements
     test('list entitlements', () async {
 
       Entitlement entitlement = await entitlementsApi.createEntitlement(
@@ -507,6 +540,9 @@ void main() {
 
     });
 
+    // Changes a license's policy relationship.
+    //
+    // https://keygen.sh/docs/api/licenses/#licenses-relationships-change-policy
     test('change license policy', () async {
 
       //

@@ -1,16 +1,22 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-String productName = 'Product 1';
-String badAdminToken = 'admin-6c247b57d6e8e0000000000000000b6847cf387d6415137766b635bc262bb64dv3';
-String newProductName = 'Product 2';
+const String productName = 'Product 1';
+const String badAdminToken = 'admin-6c247b57d6e8e0000000000000000b6847cf387d6415137766b635bc262bb64dv3';
+const String newProductName = 'Product 2';
 
 Duration wait = Duration(seconds: 1);
 
 
+// Products are used to segment policies and licenses, in the case where you
+// sell multiple products.
+//
+// See the README for more information about products and how to use them.
+//
+// https://keygen.sh/docs/api/products/
 void main() {
 
   group('Keygen Product Test', () {
@@ -126,6 +132,10 @@ void main() {
 
     });
 
+    // Updates the specified product resource by setting the values of the
+    // parameters passed.
+    //
+    // https://keygen.sh/docs/api/products/#products-update
     test('update product', () async {
 
       //
@@ -160,6 +170,9 @@ void main() {
 
     });
 
+    // Returns a list of products.
+    //
+    // https://keygen.sh/docs/api/products/#products-list
     test('list products', () async {
 
       List<Product> products = await productsApi.listProducts(
@@ -171,6 +184,9 @@ void main() {
 
     });
 
+    // Generates a new product token resource.
+    //
+    // https://keygen.sh/docs/api/products/#products-tokens
     test('create product token', () async {
 
       Token productToken = await productsApi.createProductToken(

@@ -1,16 +1,22 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-String entitlementName = 'Example Entitlement';
-String newEntitlementName = 'Example Entitlement 2';
-String entitlementCode = 'EXAMPLE_ENTITLEMENT';
+const String entitlementName = 'Example Entitlement';
+const String newEntitlementName = 'Example Entitlement 2';
+const String entitlementCode = 'EXAMPLE_ENTITLEMENT';
 
 Duration wait = Duration(seconds: 1);
 
 
+// Entitlements can be attached to policies and to licenses to grant named
+// "permissions" for things such as application features.
+//
+// See the README for more information about entitlements and how to use them.
+//
+// https://keygen.sh/docs/api/entitlements/
 void main() {
 
   group('Keygen Entitlement Test', () {
@@ -85,6 +91,10 @@ void main() {
 
     });
 
+    // Updates the specified entitlement resource by setting the values of the
+    // parameters passed.
+    //
+    // https://keygen.sh/docs/api/entitlements/#entitlements-update
     test('update entitlement', () async {
 
       //
@@ -123,6 +133,9 @@ void main() {
 
     });
 
+    // Returns a list of entitlements.
+    //
+    // https://keygen.sh/docs/api/entitlements/#entitlements-list
     test('list entitlements', () async {
 
       List<Entitlement> entitlements = await entitlementsApi.listEntitlements(

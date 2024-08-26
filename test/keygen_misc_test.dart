@@ -1,15 +1,19 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
 Duration wait = Duration(seconds: 1);
 
 
+// Miscellaneous actions
+//
+// See the README for more information about miscellaneous actions and how to
+// use them.
 void main() {
 
-  group('Keygen Misc Test', () {
+  group('Keygen Miscellaneous Test', () {
 
     late String accountId;
     late String adminEmail;
@@ -63,6 +67,10 @@ void main() {
 
     });
 
+    // Retrieves the details of the currently authenticated bearer i.e. the
+    // resource who the current API token belongs to.
+    //
+    // https://keygen.sh/docs/api/profiles/
     test('who am i', () async {
 
       User user = await miscApi.whoAmI(
@@ -73,7 +81,6 @@ void main() {
 
     });
 
-    //
     // may not write a test for forgotPassword because this requires an email
     // account to receive email
     //

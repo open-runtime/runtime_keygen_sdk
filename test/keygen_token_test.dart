@@ -1,14 +1,19 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-String badAdminPassword = 'badpassword1234';
+const String badAdminPassword = 'badpassword1234';
 
 Duration wait = Duration(seconds: 1);
 
 
+// Tokens are used by Keygen for authenticating API requests.
+//
+// See the README for more information about tokens and how to use them.
+//
+// https://keygen.sh/docs/api/tokens/
 void main() {
 
   group('Keygen Token Test', () {
@@ -68,6 +73,9 @@ void main() {
 
     });
 
+    // Retrieves the details of an existing [tokenId].
+    //
+    // https://keygen.sh/docs/api/tokens/#tokens-retrieve
     test('retrieve token', () async {
 
       Token adminToken = await tokensApi.createToken(
@@ -98,6 +106,9 @@ void main() {
 
     });
 
+    // Regenerates an existing tokenToRegenerateId resource.
+    //
+    // https://keygen.sh/docs/api/tokens/#tokens-regenerate
     test('regenerate token', () async {
 
       Token adminToken = await tokensApi.createToken(
@@ -123,6 +134,9 @@ void main() {
 
     });
 
+    // Returns a list of tokens.
+    //
+    // https://keygen.sh/docs/api/tokens/#tokens-list
     test('list tokens', () async {
 
       Token adminToken = await tokensApi.createToken(
