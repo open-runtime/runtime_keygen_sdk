@@ -1,5 +1,5 @@
 ///
-/// Keygen
+/// runtime_keygen_sdk
 ///
 library;
 

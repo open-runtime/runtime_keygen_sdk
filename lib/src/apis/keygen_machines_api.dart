@@ -1,5 +1,5 @@
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// Machines can be used to track and manage where your users are allowed to use your product.
 ///

@@ -1,5 +1,5 @@
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// A license is an implementation of a product's policy.
 ///
@@ -12,9 +12,8 @@ class KeygenLicensesApi {
   KeygenLicensesApi(this.client);
 
   /// Creates a new license resource using
-  /// the [token] that has privileges to manage the resource,
-  /// the [policy] to implement for the license, and
-  /// the [user] the license belongs to.
+  /// the [token] that has privileges to manage the resource, and
+  /// the [policy] to implement for the license.
   ///
   /// Returns the [License] that was created.
   ///
@@ -24,7 +23,7 @@ class KeygenLicensesApi {
   Future<License> createLicense({
     required Token token,
     required Policy policy,
-    required User user,
+    User? user,
     String? name,
     String? key,
     DateTime? expiry,
@@ -46,6 +45,16 @@ class KeygenLicensesApi {
         authentication: bearer,
       ),
     );
+
+    CreateLicenseRequestDataRelationshipsUser? relationshipsUser;
+    if (user != null) {
+      relationshipsUser = CreateLicenseRequestDataRelationshipsUser(
+          data: CreateLicenseRequestDataRelationshipsUserData(
+            type: CreateLicenseRequestDataRelationshipsUserDataTypeEnum.users,
+            id: user.id,
+          )
+      );
+    }
 
     CreateLicenseRequest createLicenseRequest = CreateLicenseRequest(
       data: CreateLicenseRequestData(
@@ -69,12 +78,7 @@ class KeygenLicensesApi {
               id: policy.id,
             ),
           ),
-          user: CreateLicenseRequestDataRelationshipsUser(
-            data: CreateLicenseRequestDataRelationshipsUserData(
-              type: CreateLicenseRequestDataRelationshipsUserDataTypeEnum.users,
-              id: user.id,
-            ),
-          ),
+          user: relationshipsUser,
         ),
       ),
     );
@@ -370,7 +374,7 @@ class KeygenLicensesApi {
   }
   
   /// Updates the specified [license] resource by setting the values of the
-  /// parameters passed.
+  /// parameters passed using
   /// the [token] that has privileges to manage the resource.
   ///
   /// Returns the [License] whose metadata was replaced.

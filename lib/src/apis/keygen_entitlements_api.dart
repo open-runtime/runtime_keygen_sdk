@@ -1,5 +1,5 @@
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// Entitlements can be attached to policies and to licenses to grant named
 /// "permissions" for things such as application features.

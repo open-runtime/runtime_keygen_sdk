@@ -1,5 +1,5 @@
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// The product resource is used to segment policies and licenses by product, in the case where you sell multiple products.
 ///

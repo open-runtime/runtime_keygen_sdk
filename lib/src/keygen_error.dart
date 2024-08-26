@@ -1,4 +1,4 @@
-import 'package:openapi/api.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// Thrown by Keygen actions when there is an error.
 class KeygenError {

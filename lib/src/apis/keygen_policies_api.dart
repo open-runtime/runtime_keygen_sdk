@@ -1,5 +1,5 @@
-import 'package:keygen/keygen.dart';
-import 'package:openapi/api.dart';
+import 'package:keygen/runtime_keygen_sdk.dart';
+import 'package:runtime_keygen_openapi/api.dart';
 
 /// Your policies define the different types of licenses that a given product offers.
 ///
@@ -50,10 +50,10 @@ class KeygenPoliciesApi {
     CreatePolicyRequestDataAttributesHeartbeatCullStrategyEnum heartbeatCullStrategy = CreatePolicyRequestDataAttributesHeartbeatCullStrategyEnum.DEACTIVATE_DEAD,
     CreatePolicyRequestDataAttributesHeartbeatResurrectionStrategyEnum heartbeatResurrectionStrategy = CreatePolicyRequestDataAttributesHeartbeatResurrectionStrategyEnum.NO_REVIVE,
     CreatePolicyRequestDataAttributesHeartbeatBasisEnum? heartbeatBasis,
-    CreatePolicyRequestDataAttributesMachineUniquenessStrategyEnum machineUniquenessStrategy = CreatePolicyRequestDataAttributesMachineUniquenessStrategyEnum.LICENSE,
-    CreatePolicyRequestDataAttributesMachineMatchingStrategyEnum machineMatchingStrategy = CreatePolicyRequestDataAttributesMachineMatchingStrategyEnum.ANY,
+    CreatePolicyRequestDataAttributesMachineUniquenessStrategyEnum machineUniquenessStrategy = CreatePolicyRequestDataAttributesMachineUniquenessStrategyEnum.UNIQUE_PER_LICENSE,
+    CreatePolicyRequestDataAttributesMachineMatchingStrategyEnum machineMatchingStrategy = CreatePolicyRequestDataAttributesMachineMatchingStrategyEnum.MATCH_ANY,
     CreatePolicyRequestDataAttributesExpirationStrategyEnum expirationStrategy = CreatePolicyRequestDataAttributesExpirationStrategyEnum.RESTRICT_ACCESS,
-    CreatePolicyRequestDataAttributesExpirationBasisEnum expirationBasis = CreatePolicyRequestDataAttributesExpirationBasisEnum.CREATION,
+    CreatePolicyRequestDataAttributesExpirationBasisEnum expirationBasis = CreatePolicyRequestDataAttributesExpirationBasisEnum.FROM_CREATION,
     CreatePolicyRequestDataAttributesTransferStrategyEnum transferStrategy = CreatePolicyRequestDataAttributesTransferStrategyEnum.KEEP_EXPIRY,
     CreatePolicyRequestDataAttributesAuthenticationStrategyEnum authenticationStrategy = CreatePolicyRequestDataAttributesAuthenticationStrategyEnum.TOKEN,
     CreatePolicyRequestDataAttributesMachineLeasingStrategyEnum? machineLeasingStrategy,
