@@ -4,7 +4,9 @@ import 'package:runtime_keygen_openapi/api.dart';
 import 'package:test/test.dart';
 
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Miscellaneous actions
@@ -44,13 +46,13 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,

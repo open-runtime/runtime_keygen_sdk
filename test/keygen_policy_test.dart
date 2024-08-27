@@ -11,7 +11,9 @@ const String newBasicPolicyName = 'Basic Policy 2';
 const String entitlementName = 'Example Entitlement';
 const String entitlementCode = 'EXAMPLE_ENTITLEMENT';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Policies define the different "types" of licenses that your product offers.
@@ -59,41 +61,41 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       product = await productsApi.createProduct(
         token: adminToken,
         name: productName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       productToken = await productsApi.createProductToken(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
         tokenToBeRevoked: productToken,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await productsApi.deleteProduct(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -110,13 +112,13 @@ void main() {
         name: basicPolicyName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await policiesApi.deletePolicy(
         token: productToken,
@@ -175,7 +177,7 @@ void main() {
         policyId: basicPolicy.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(policy2.attributes.name, basicPolicyName);
 
@@ -185,7 +187,7 @@ void main() {
         name: newBasicPolicyName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       policy2 = await policiesApi.retrievePolicy(
         token: adminToken,
@@ -229,7 +231,7 @@ void main() {
         code: entitlementCode,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -238,7 +240,7 @@ void main() {
           policy: basicPolicy,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 0);
 
@@ -248,19 +250,19 @@ void main() {
           entitlements: [ entitlement ],
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         entitlements = await policiesApi.listPolicyEntitlements(
           token: adminToken,
           policy: basicPolicy,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 1);
         expect(entitlements[0].id, entitlement.id);
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         await policiesApi.detachPolicyEntitlements(
           token: adminToken,
@@ -268,14 +270,14 @@ void main() {
           entitlements: [ entitlement ],
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         entitlements = await policiesApi.listPolicyEntitlements(
           token: adminToken,
           policy: basicPolicy,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 0);
 

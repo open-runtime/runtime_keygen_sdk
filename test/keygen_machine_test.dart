@@ -11,7 +11,9 @@ const String emailJohnDoe = 'john@doe.com';
 const String machineName = 'Machine Name';
 const String newMachineName = 'Machine Name 2';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Machines can be used to track and manage where your users are allowed to
@@ -69,28 +71,28 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       product = await productsApi.createProduct(
         token: adminToken,
         name: productName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       productToken = await productsApi.createProductToken(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       user = await usersApi.createUser(
         token: adminToken,
         email: emailJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       policy = await policiesApi.createPolicy(
         token: adminToken,
@@ -98,7 +100,7 @@ void main() {
         name: basicPolicyName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       license = await licensesApi.createLicense(
         token: adminToken,
@@ -106,48 +108,48 @@ void main() {
         user: user,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await licensesApi.deleteLicense(
         token: adminToken,
         license: license,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await policiesApi.deletePolicy(
         token: adminToken,
         policy: policy,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await usersApi.deleteUser(
         token: adminToken,
         user: user,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
         tokenToBeRevoked: productToken,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await productsApi.deleteProduct(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -167,13 +169,13 @@ void main() {
         name: machineName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await machinesApi.deactivateMachine(
         token: adminToken,
@@ -201,7 +203,7 @@ void main() {
         machineId: machine.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(machine2.attributes.name, machineName);
 
@@ -211,7 +213,7 @@ void main() {
         name: newMachineName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       machine2 = await machinesApi.retrieveMachine(
         token: adminToken,
@@ -246,7 +248,7 @@ void main() {
         machineId: machine.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(machine2.attributes.heartbeatStatus, MachineAttributesHeartbeatStatusEnum.NOT_STARTED);
 
@@ -255,14 +257,14 @@ void main() {
         machine: machine2,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       machine2 = await machinesApi.retrieveMachine(
         token: adminToken,
         machineId: machine.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(machine2.attributes.heartbeatStatus, MachineAttributesHeartbeatStatusEnum.ALIVE);
 
@@ -271,7 +273,7 @@ void main() {
         machine: machine2,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       machine2 = await machinesApi.retrieveMachine(
         token: adminToken,
@@ -289,7 +291,7 @@ void main() {
         token: adminToken,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 

@@ -14,7 +14,9 @@ const String entitlementName = 'Example Entitlement';
 const String entitlementCode = 'EXAMPLE_ENTITLEMENT';
 const int durationDaySeconds = 86400;
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Licenses are used to grant access to your software.
@@ -71,28 +73,28 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       product = await productsApi.createProduct(
         token: adminToken,
         name: productName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       productToken = await productsApi.createProductToken(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       user = await usersApi.createUser(
         token: adminToken,
         email: emailJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       basicPolicy = await policiesApi.createPolicy(
         token: productToken,
@@ -101,41 +103,41 @@ void main() {
         duration: durationDaySeconds,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await policiesApi.deletePolicy(
         token: adminToken,
         policy: basicPolicy,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await usersApi.deleteUser(
         token: adminToken,
         user: user,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
         tokenToBeRevoked: productToken,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await productsApi.deleteProduct(
         token: adminToken,
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -160,13 +162,13 @@ void main() {
         expiry: licenseCreationTime.add(Duration(minutes: 10))
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await licensesApi.deleteLicense(
         token: productToken,
@@ -194,7 +196,7 @@ void main() {
         licenseId: license.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(license2.attributes.name, licenseName);
 
@@ -204,7 +206,7 @@ void main() {
         name: newLicenseName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       License license3 = await licensesApi.retrieveLicense(
         token: adminToken,
@@ -266,7 +268,7 @@ void main() {
         licenseId: license.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(resp.meta.code, 'VALID');
 
@@ -275,14 +277,14 @@ void main() {
         license: license,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       resp = await licensesApi.validateLicenseById(
         token: adminToken,
         licenseId: license.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(resp.meta.code, 'SUSPENDED');
 
@@ -291,7 +293,7 @@ void main() {
         license: license,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       resp = await licensesApi.validateLicenseById(
         token: adminToken,
@@ -318,7 +320,7 @@ void main() {
         licenseId: license.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       DateTime expiry = license2.attributes.expiry!;
 
@@ -331,7 +333,7 @@ void main() {
         license: license,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       license2 = await licensesApi.retrieveLicense(
         token: adminToken,
@@ -403,7 +405,7 @@ void main() {
         license: license,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       // FIXME: currently throws
       await miscApi.whoAmI(
@@ -444,7 +446,7 @@ void main() {
         expect(e.msg, isNotNull);
       }
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -461,7 +463,7 @@ void main() {
         expect(e.msg, isNotNull);
       }
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -489,7 +491,7 @@ void main() {
         code: entitlementCode,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -498,7 +500,7 @@ void main() {
           license: license,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 0);
 
@@ -508,14 +510,14 @@ void main() {
           entitlements: [ entitlement ],
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         entitlements = await licensesApi.listLicenseEntitlements(
           token: adminToken,
           license: license,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 1);
         expect(entitlements[0].id, entitlement.id);
@@ -526,14 +528,14 @@ void main() {
           entitlements: [ entitlement ],
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         entitlements = await licensesApi.listLicenseEntitlements(
           token: adminToken,
           license: license,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(entitlements.length, 0);
 
@@ -564,7 +566,7 @@ void main() {
         name: proPolicyName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -573,7 +575,7 @@ void main() {
           licenseId: license.id,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(license2.relationships.policy.data.id, basicPolicy.id);
 
@@ -583,14 +585,14 @@ void main() {
           policy: proPolicy,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         license2 = await licensesApi.retrieveLicense(
           token: adminToken,
           licenseId: license.id,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(license2.relationships.policy.data.id, proPolicy.id);
 

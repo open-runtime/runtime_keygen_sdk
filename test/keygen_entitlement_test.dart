@@ -8,7 +8,9 @@ const String entitlementName = 'Example Entitlement';
 const String newEntitlementName = 'Example Entitlement 2';
 const String entitlementCode = 'EXAMPLE_ENTITLEMENT';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+const Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Entitlements can be attached to policies and to licenses to grant named
@@ -51,13 +53,13 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -74,13 +76,13 @@ void main() {
         code: entitlementCode,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await entitlementsApi.deleteEntitlement(
         token: adminToken,
@@ -110,7 +112,7 @@ void main() {
         entitlementId: entitlementId,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(entitlement2.attributes.name, entitlementName);
 
@@ -120,14 +122,14 @@ void main() {
         name: newEntitlementName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       entitlement2 = await entitlementsApi.retrieveEntitlement(
         token: adminToken,
         entitlementId: entitlementId,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(entitlement2.attributes.name, newEntitlementName);
 

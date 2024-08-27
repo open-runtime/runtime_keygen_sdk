@@ -8,7 +8,9 @@ const String productName = 'Product 1';
 const String badAdminToken = 'admin-6c247b57d6e8e0000000000000000b6847cf387d6415137766b635bc262bb64dv3';
 const String newProductName = 'Product 2';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Products are used to segment policies and licenses, in the case where you
@@ -53,13 +55,13 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -75,13 +77,13 @@ void main() {
         name: productName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await productsApi.deleteProduct(
         token: adminToken,
@@ -151,7 +153,7 @@ void main() {
         productId: product.id,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(product2.attributes.name, productName);
 
@@ -161,7 +163,7 @@ void main() {
         name: newProductName,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       product2 = await productsApi.retrieveProduct(
         token: adminToken,
@@ -196,7 +198,7 @@ void main() {
         product: product,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       // FIXME: currently throws
       await miscApi.whoAmI(

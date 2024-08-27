@@ -6,7 +6,9 @@ import 'package:test/test.dart';
 
 const String badAdminPassword = 'badpassword1234';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Tokens are used by Keygen for authenticating API requests.
@@ -83,7 +85,7 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -92,7 +94,7 @@ void main() {
           tokenToRetrieveId: adminToken.id,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         expect(token2.id, adminToken.id);
 
@@ -116,7 +118,7 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       //
       // nothing much to test here
@@ -144,7 +146,7 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 

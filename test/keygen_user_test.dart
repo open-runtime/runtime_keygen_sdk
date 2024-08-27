@@ -10,7 +10,9 @@ const String emailJohnDoe = 'john@doe.com';
 const String passwordJohnDoe = 'secret5';
 const String newPasswordJohnDoe = 'secret6';
 
-Duration wait = Duration(seconds: 1);
+// Why are there so many calls to `await Future.delayed(wait);` in the tests?
+// See Tests section of README
+Duration rateLimitDelay = Duration(seconds: 1);
 
 
 // Users represent an identity for an end-user, or licensee, of your software.
@@ -52,13 +54,13 @@ void main() {
         password: adminPassword,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDownAll(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       await tokensApi.revokeToken(
         token: adminToken,
@@ -76,13 +78,13 @@ void main() {
         password: passwordJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
     });
 
     tearDown(() async {
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       bool valid = await usersApi.deleteUser(
         token: adminToken,
@@ -110,7 +112,7 @@ void main() {
         userEmail: emailJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(user2.attributes.firstName, firstNameJohn);
 
@@ -120,7 +122,7 @@ void main() {
         firstName: firstNameBob,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       user2 = await usersApi.retrieveUser(
         token: adminToken,
@@ -178,7 +180,7 @@ void main() {
         user: user,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       try {
 
@@ -189,7 +191,7 @@ void main() {
           newPassword: newPasswordJohnDoe,
         );
 
-        await Future.delayed(wait);
+        await Future.delayed(rateLimitDelay);
 
         //
         // cannot get new password
@@ -225,7 +227,7 @@ void main() {
         userEmail: emailJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(user2.attributes.status, UserAttributesStatusEnum.ACTIVE);
 
@@ -234,14 +236,14 @@ void main() {
         user: user2,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       user2 = await usersApi.retrieveUser(
         token: adminToken,
         userEmail: emailJohnDoe,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(user2.attributes.status, UserAttributesStatusEnum.BANNED);
 
@@ -250,7 +252,7 @@ void main() {
         user: user2,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       user2 = await usersApi.retrieveUser(
         token: adminToken,
@@ -271,7 +273,7 @@ void main() {
         user: user,
       );
 
-      await Future.delayed(wait);
+      await Future.delayed(rateLimitDelay);
 
       expect(userToken.attributes.token, startsWith('user-'));
 
