@@ -29,6 +29,7 @@ void main() {
 
     late KeygenTokensApi tokensApi;
     late KeygenProductsApi productsApi;
+    late KeygenMiscApi miscApi;
 
     late Token adminToken;
     late Product product;
@@ -45,6 +46,7 @@ void main() {
       client = KeygenClient(accountId);
       tokensApi = KeygenTokensApi(client);
       productsApi = KeygenProductsApi(client);
+      miscApi = KeygenMiscApi(client);
 
       adminToken = await tokensApi.createToken(
         email: adminEmail,
@@ -195,6 +197,11 @@ void main() {
       );
 
       await Future.delayed(wait);
+
+      // FIXME: currently throws
+      await miscApi.whoAmI(
+        token: productToken,
+      );
 
       try {
 
