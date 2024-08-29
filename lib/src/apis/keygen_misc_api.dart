@@ -13,12 +13,17 @@ class KeygenMiscApi {
   /// resource who the current API token belongs to using
   /// the [token].
   ///
-  /// Returns the [User] who the current API token belongs to.
+  /// Returns the bearer of the [token]. This will be one of:
+  /// * License
+  /// * Product
+  /// * User
+  ///
+  /// depending on the type of the [token].
   ///
   /// Throws [KeygenError] on error.
   ///
   /// https://keygen.sh/docs/api/profiles/
-  Future<User> whoAmI({
+  Future<dynamic> retrieveProfile({
     required Token token,
   }) async {
 

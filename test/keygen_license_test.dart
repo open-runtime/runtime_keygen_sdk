@@ -405,14 +405,15 @@ void main() {
         license: license,
       );
 
-      await Future.delayed(rateLimitDelay);
-
-      // FIXME: currently throws
-      await miscApi.whoAmI(
-        token: licenseToken,
-      );
-
       try {
+
+        await Future.delayed(rateLimitDelay);
+
+        dynamic resp = await miscApi.retrieveProfile(
+          token: licenseToken,
+        );
+
+        expect(resp is License, true);
 
         expect(licenseToken.attributes.token, startsWith('activ-'));
 
