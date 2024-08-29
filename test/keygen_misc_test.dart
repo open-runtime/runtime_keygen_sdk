@@ -75,9 +75,13 @@ void main() {
     // https://keygen.sh/docs/api/profiles/
     test('who am i', () async {
 
-      User user = await miscApi.whoAmI(
+      dynamic resp = await miscApi.retrieveProfile(
         token: adminToken,
       );
+
+      expect(resp is User, true);
+
+      User user = resp as User;
 
       expect(user.attributes.email, adminEmail);
 

@@ -198,14 +198,15 @@ void main() {
         product: product,
       );
 
-      await Future.delayed(rateLimitDelay);
-
-      // FIXME: currently throws
-      await miscApi.whoAmI(
-        token: productToken,
-      );
-
       try {
+
+        await Future.delayed(rateLimitDelay);
+
+        dynamic resp = await miscApi.retrieveProfile(
+          token: productToken,
+        );
+
+        expect(resp is Product, true);
 
         expect(productToken.attributes.token, startsWith('prod-'));
 
