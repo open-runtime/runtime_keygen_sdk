@@ -1,4 +1,4 @@
-name: keygen
+name: runtime_keygen_sdk
 description: Dart package for Keygen (https://keygen.sh)
 
 version: 1.0.0

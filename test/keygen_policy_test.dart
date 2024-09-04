@@ -1,6 +1,6 @@
 import 'package:dotenv/dotenv.dart';
-import 'package:keygen/runtime_keygen_sdk.dart';
 import 'package:runtime_keygen_openapi/api.dart';
+import 'package:runtime_keygen_sdk/runtime_keygen_sdk.dart';
 import 'package:test/test.dart';
 
 
