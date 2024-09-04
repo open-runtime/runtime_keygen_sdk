@@ -1,6 +1,8 @@
 name: runtime_keygen_sdk
 description: Dart package for Keygen (https://keygen.sh)
 
+homepage: 'https://github.com/open-runtime/runtime_keygen_sdk'
+
 version: 1.0.0
 
 environment:
