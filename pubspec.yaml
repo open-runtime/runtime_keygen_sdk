@@ -1,5 +1,7 @@
-name: keygen
+name: runtime_keygen_sdk
 description: Dart package for Keygen (https://keygen.sh)
+
+homepage: 'https://github.com/open-runtime/runtime_keygen_sdk'
 
 version: 1.0.0
 
@@ -7,15 +9,10 @@ environment:
   sdk: ^3.4.3
 
 dependencies:
-  runtime_keygen_openapi:
-    git:
-      url: git@github.com:open-runtime/runtime_keygen_openapi.git
-      path: ./dart/
+  runtime_keygen_openapi: ^1.0.0
 
 dev_dependencies:
   lints: ^3.0.0
   test: ^1.24.0
   dotenv: ^4.2.0
-  runtime_digital_fingerprint:
-    git:
-      url: git@github.com:open-runtime/runtime_digital_fingerprint.git
+  runtime_digital_fingerprint: ^1.0.0

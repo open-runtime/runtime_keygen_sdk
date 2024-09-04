@@ -1,5 +1,5 @@
-import 'package:keygen/runtime_keygen_sdk.dart';
 import 'package:runtime_keygen_openapi/api.dart';
+import 'package:runtime_keygen_sdk/runtime_keygen_sdk.dart';
 
 /// Keygen provides identity management for your customers,
 /// which allows you to authenticate them using an email/password by creating a token.

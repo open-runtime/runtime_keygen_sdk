@@ -1,5 +1,5 @@
-import 'package:keygen/runtime_keygen_sdk.dart';
 import 'package:runtime_keygen_openapi/api.dart';
+import 'package:runtime_keygen_sdk/runtime_keygen_sdk.dart';
 
 /// A license is an implementation of a product's policy.
 ///
