@@ -287,9 +287,13 @@ void main() {
     // changeOwner is currently missing from keygen-openapi.yml
     test('change owner', () async {
 
-      User newOwner = await miscApi.whoAmI(
+      dynamic resp = await miscApi.retrieveProfile(
         token: adminToken,
       );
+
+      expect(resp is User, true);
+
+      User newOwner = resp as User;
 
       await Future.delayed(rateLimitDelay);
 
